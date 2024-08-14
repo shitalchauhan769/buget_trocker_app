@@ -77,41 +77,39 @@ class _CategoryScreenState extends State<CategoryScreen> {
                                 txtAlertCategory.text =
                                     controller.categoryList[index].name!;
                                 Get.defaultDialog(
-                                    title: "Update",
-                                    content: TextField(
-                                      controller: txtAlertCategory,
-                                      decoration: const InputDecoration(
-                                        border: OutlineInputBorder(),
-                                        label: Text("Category"),
-                                      ),
+                                  title: "Update",
+                                  content: TextField(
+                                    controller: txtAlertCategory,
+                                    decoration: const InputDecoration(
+                                      border: OutlineInputBorder(),
+                                      label: Text("Category"),
                                     ),
-                                    actions: [
-                                      ElevatedButton(
-                                        onPressed: () async {
-                                          await controller.helper
-                                              .updateCategory(
-                                                  txtAlertCategory.text,
-                                                  controller
-                                                      .categoryList[index].id!);
-
-                                          controller.getCategory();
-                                          Get.back();
-                                        },
-                                        child: const Text("Save"),
-                                      ),
-                                      const SizedBox(
-                                        width: 10,
-                                      ),
-                                      ElevatedButton(
-                                        onPressed: () async {
-                                          Get.back();
-                                        },
-                                        child: const Text("cancel"),
-                                      ),
-                                    ]);
+                                  ),
+                                  actions: [
+                                    ElevatedButton(
+                                      onPressed: () async {
+                                        await controller.helper.updateCategory(
+                                            txtAlertCategory.text,
+                                            controller.categoryList[index].id!);
+                                        controller.getCategory();
+                                        Get.back();
+                                      },
+                                      child: const Text("Save"),
+                                    ),
+                                    const SizedBox(
+                                      width: 10,
+                                    ),
+                                    ElevatedButton(
+                                      onPressed: () async {
+                                        Get.back();
+                                      },
+                                      child: const Text("cancel"),
+                                    ),
+                                  ],
+                                );
                                 controller.getCategory();
                               },
-                              icon: Icon(Icons.edit),
+                              icon: const Icon(Icons.edit),
                             ),
                             IconButton(
                               onPressed: () async {

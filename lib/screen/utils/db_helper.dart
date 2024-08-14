@@ -21,9 +21,10 @@ class DBHelper {
       path,
       version: 1,
       onCreate: (db, version) {
-        String query =
-            "CREATE TABLE category (cid INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT)";
+        String query = "CREATE TABLE category (cid INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT)";
+        String query1 = "CREATE TABLE entry (id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT,amount TEXT,category TEXT,date TEXT,time TEXT,status TEXT)";
         db.execute(query);
+        db.execute(query1);
 
       },
     );
@@ -55,5 +56,11 @@ class DBHelper {
     database = await checkDB();
     String query = "DELETE FROM category WHERE cid='$id'";
     database!.rawDelete(query);
+  }
+
+  Future<void> insertIncameExpens(title,date,category,time,amount,status) async {
+    database = await checkDB();
+    String query = "INSERT INTO entry (title,amount,category,date,time,status) VALUES ('$title','$amount','$category','$date','$time','$status')";
+    database!.rawInsert(query);
   }
 }
