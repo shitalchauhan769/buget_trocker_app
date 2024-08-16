@@ -40,7 +40,6 @@ class _EntryScreenState extends State<EntryScreen> {
             ),
             TextFormField(
               controller: txtAmount,
-
               decoration: const InputDecoration(
                 label: Text("amount"),
                 border: OutlineInputBorder(),
@@ -51,12 +50,13 @@ class _EntryScreenState extends State<EntryScreen> {
             ),
             Obx(
               () => DropdownButtonFormField(
-                value: "${categoryController.categoryList}",
+                value: "${controller.selectCategory}",
                 items: List.generate(
                   categoryController.categoryList.length,
-                  (index) {
-                   categoryController.categoryList[index].name!;
-                  },
+                  (index) => DropdownMenuItem(
+                    child:
+                        Text(" ${categoryController.categoryList[index].name}"),
+                  ),
                 ),
                 onChanged: (value) {
                   categoryController.getCategory();
@@ -110,11 +110,10 @@ class _EntryScreenState extends State<EntryScreen> {
                       helper.insertIncameExpens(
                           txtTitle.text,
                           controller.date.value,
-                          categoryController.categoryList,
+                          controller.selectCategory.value,
                           controller.time.value,
                           txtAmount.text,
-                          0
-                      );
+                          0);
                     },
                     child: Text(
                       "income",
@@ -138,11 +137,10 @@ class _EntryScreenState extends State<EntryScreen> {
                       helper.insertIncameExpens(
                           txtTitle.text,
                           controller.date.value,
-                          categoryController.categoryList,
+                          controller.selectCategory.value,
                           controller.time.value,
                           txtAmount.text,
-                          1
-                      );
+                          1);
                     },
                     child: Text(
                       "expenses",
