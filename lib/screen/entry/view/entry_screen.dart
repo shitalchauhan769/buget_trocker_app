@@ -17,7 +17,11 @@ class _EntryScreenState extends State<EntryScreen> {
   CategoryController categoryController = Get.put(CategoryController());
   TextEditingController txtTitle = TextEditingController();
   TextEditingController txtAmount = TextEditingController();
-
+@override
+  void initState() {
+    categoryController.getCategory();
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,22 +52,23 @@ class _EntryScreenState extends State<EntryScreen> {
             const SizedBox(
               height: 10,
             ),
-            Obx(
-              () => DropdownButtonFormField(
-                value: "${controller.selectCategory}",
-                items: List.generate(
-                  categoryController.categoryList.length,
-                  (index) => DropdownMenuItem(
-                    child:
-                        Text(" ${categoryController.categoryList[index].name}"),
-                  ),
-                ),
-                onChanged: (value) {
-                  categoryController.getCategory();
-                },
-                decoration: const InputDecoration(border: OutlineInputBorder()),
-              ),
-            ),
+            // Obx(
+            //   () => DropdownButtonFormField(
+            //
+            //     value: "${controller.selectCategory}",
+            //     items: List.generate(
+            //       categoryController.categoryList.length,
+            //       (index) => DropdownMenuItem(
+            //         child:
+            //             Text(" ${categoryController.categoryList[index].name}"),
+            //       ),
+            //     ),
+            //     onChanged: (value) {
+            //      categoryController.getCategory();
+            //     },
+            //     decoration: const InputDecoration(border: OutlineInputBorder()),
+            //   ),
+            // ),
             const SizedBox(
               height: 10,
             ),
@@ -101,10 +106,10 @@ class _EntryScreenState extends State<EntryScreen> {
               ],
             ),
             Spacer(),
-            Row(
-              children: [
-                Expanded(
-                  child: ElevatedButton(
+            Expanded(
+              child: Row(
+                children: [
+                  ElevatedButton(
                     onPressed: () {
                       DBHelper helper = DBHelper();
                       helper.insertIncameExpens(
@@ -113,7 +118,13 @@ class _EntryScreenState extends State<EntryScreen> {
                           controller.selectCategory.value,
                           controller.time.value,
                           txtAmount.text,
-                          0);
+                          0,
+
+                      );
+                      controller.getEntry();
+                      Get.back();
+
+
                     },
                     child: Text(
                       "income",
@@ -126,12 +137,10 @@ class _EntryScreenState extends State<EntryScreen> {
                       backgroundColor: WidgetStatePropertyAll(Colors.green),
                     ),
                   ),
-                ),
-                const SizedBox(
-                  width: 20,
-                ),
-                Expanded(
-                  child: ElevatedButton(
+                  const SizedBox(
+                    width: 20,
+                  ),
+                  ElevatedButton(
                     onPressed: () {
                       DBHelper helper = DBHelper();
                       helper.insertIncameExpens(
@@ -140,7 +149,10 @@ class _EntryScreenState extends State<EntryScreen> {
                           controller.selectCategory.value,
                           controller.time.value,
                           txtAmount.text,
-                          1);
+                          1,);
+                      controller.getEntry();
+                      Get.back();
+
                     },
                     child: Text(
                       "expenses",
@@ -153,8 +165,8 @@ class _EntryScreenState extends State<EntryScreen> {
                       backgroundColor: WidgetStatePropertyAll(Colors.red),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             )
           ],
         ),
