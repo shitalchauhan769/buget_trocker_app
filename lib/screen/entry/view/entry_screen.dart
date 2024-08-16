@@ -52,23 +52,23 @@ class _EntryScreenState extends State<EntryScreen> {
             const SizedBox(
               height: 10,
             ),
-            // Obx(
-            //   () => DropdownButtonFormField(
-            //
-            //     value: "${controller.selectCategory}",
-            //     items: List.generate(
-            //       categoryController.categoryList.length,
-            //       (index) => DropdownMenuItem(
-            //         child:
-            //             Text(" ${categoryController.categoryList[index].name}"),
-            //       ),
-            //     ),
-            //     onChanged: (value) {
-            //      categoryController.getCategory();
-            //     },
-            //     decoration: const InputDecoration(border: OutlineInputBorder()),
-            //   ),
-            // ),
+            Obx(
+              () => DropdownButtonFormField(
+                value: controller.selectCategory.value,
+                items: List.generate(
+                  categoryController.categoryList.length,
+                  (index) => DropdownMenuItem(
+                    value: categoryController.categoryList[index].name,
+                    child:
+                        Text(" ${categoryController.categoryList[index].name}"),
+                  ),
+                ),
+                onChanged: (value) {
+                 categoryController.getCategory();
+                },
+                decoration: const InputDecoration(border: OutlineInputBorder()),
+              ),
+            ),
             const SizedBox(
               height: 10,
             ),
@@ -106,10 +106,10 @@ class _EntryScreenState extends State<EntryScreen> {
               ],
             ),
             Spacer(),
-            Expanded(
-              child: Row(
-                children: [
-                  ElevatedButton(
+            Row(
+              children: [
+                Expanded(
+                  child: ElevatedButton(
                     onPressed: () {
                       DBHelper helper = DBHelper();
                       helper.insertIncameExpens(
@@ -119,12 +119,10 @@ class _EntryScreenState extends State<EntryScreen> {
                           controller.time.value,
                           txtAmount.text,
                           0,
-
+                              
                       );
                       controller.getEntry();
                       Get.back();
-
-
                     },
                     child: Text(
                       "income",
@@ -137,10 +135,12 @@ class _EntryScreenState extends State<EntryScreen> {
                       backgroundColor: WidgetStatePropertyAll(Colors.green),
                     ),
                   ),
-                  const SizedBox(
-                    width: 20,
-                  ),
-                  ElevatedButton(
+                ),
+                const SizedBox(
+                  width: 20,
+                ),
+                Expanded(
+                  child: ElevatedButton(
                     onPressed: () {
                       DBHelper helper = DBHelper();
                       helper.insertIncameExpens(
@@ -152,7 +152,7 @@ class _EntryScreenState extends State<EntryScreen> {
                           1,);
                       controller.getEntry();
                       Get.back();
-
+                              
                     },
                     child: Text(
                       "expenses",
@@ -165,8 +165,8 @@ class _EntryScreenState extends State<EntryScreen> {
                       backgroundColor: WidgetStatePropertyAll(Colors.red),
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             )
           ],
         ),
