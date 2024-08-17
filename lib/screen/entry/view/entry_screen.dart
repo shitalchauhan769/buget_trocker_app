@@ -63,8 +63,9 @@ class _EntryScreenState extends State<EntryScreen> {
                         Text(" ${categoryController.categoryList[index].name}"),
                   ),
                 ),
+                isExpanded: true,
                 onChanged: (value) {
-                 categoryController.getCategory();
+                 controller.selectCategory.value=value;
                 },
                 decoration: const InputDecoration(border: OutlineInputBorder()),
               ),
