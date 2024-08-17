@@ -11,8 +11,30 @@ class EntryController extends GetxController
   Rx<TimeOfDay> time=TimeOfDay.now().obs;
   RxnString selectCategory=RxnString();
   RxList<EntryModel>entryList=<EntryModel>[].obs;
+  List<EntryModel>filterList=[];
+
 
   Future<void> getEntry() async {
     entryList.value = await helper.readEntry();
+  }
+
+
+  Future<void> getStutseDate(int? status) async {
+    entryList.value =await helper.sharChing(status);
+  }
+
+  void searchingData(String search)
+  {
+    List<EntryModel>brekateList=[];
+
+    for(var x in entryList)
+      {
+        if(x.category!.toLowerCase().contains(search.toLowerCase()))
+          {
+            filterList.add(x);
+          }
+        entryList.value = filterList;
+      }
+
   }
 }

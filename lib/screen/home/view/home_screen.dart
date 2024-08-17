@@ -12,9 +12,10 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   EntryController controller = Get.put(EntryController());
+
   @override
   void initState() {
-   controller.getEntry();
+    controller.getEntry();
     super.initState();
   }
 
@@ -24,6 +25,28 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
         title: const Text("Budget"),
         actions: [
+          PopupMenuButton(
+            itemBuilder: (context) => [
+              PopupMenuItem(
+                child: const Text("All"),
+                onTap: () {
+                  controller.getEntry();
+                },
+              ),
+              PopupMenuItem(
+                child: const Text("income"),
+                onTap: () {
+                 controller.getStutseDate(0);
+                },
+              ),
+              PopupMenuItem(
+                child: const Text("expenses"),
+                onTap: () {
+                  controller.getStutseDate(1);
+                },
+              ),
+            ],
+          ),
           IconButton(
             onPressed: () {
               Get.toNamed("/category");
@@ -32,27 +55,51 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ],
       ),
-      body: Obx(
-        () => ListView.builder(
-          itemCount: controller.entryList.length,
-          itemBuilder: (context, index) {
-            return InkWell(
-              onDoubleTap: () {
-                DBHelper helper=DBHelper();
-                helper.deleteEntry(controller.entryList[index].id);
-                controller.getEntry();
-              },
-              child: ListTile(
-                title: Text(
-                  "${controller.entryList[index].category}",
-                  style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                ),
-                subtitle: Text("${controller.entryList[index].title}",  style: const TextStyle(fontSize: 14)),
-                trailing: Text("\$ ${controller.entryList[index].amount}",style: TextStyle(color: controller.entryList[index].status==1?Colors.red:Colors.green,fontSize: 20,fontWeight: FontWeight.bold),),
+      body: Column(
+        children: [
+          SearchBar(
+            backgroundColor: WidgetStatePropertyAll(Colors.white),
+            elevation: WidgetStatePropertyAll(1),
+            
+            onChanged: (value) {
+            controller.searchingData(value);
+          },),
+          Expanded(
+            child: Obx(
+              () => ListView.builder(
+                itemCount: controller.entryList.length,
+                itemBuilder: (context, index) {
+                  return InkWell(
+                    onDoubleTap: () {
+                      DBHelper helper = DBHelper();
+                      helper.deleteEntry(controller.entryList[index].id);
+                      controller.getEntry();
+                    },
+                    child: ListTile(
+                      title: Text(
+                        "${controller.entryList[index].title}",
+
+                        style: const TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.bold),
+                      ),
+                      subtitle: Text( "${controller.entryList[index].category}",
+                          style: const TextStyle(fontSize: 14)),
+                      trailing: Text(
+                        "\$ ${controller.entryList[index].amount}",
+                        style: TextStyle(
+                            color: controller.entryList[index].status == 1
+                                ? Colors.red
+                                : Colors.green,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                  );
+                },
               ),
-            );
-          },
-        ),
+            ),
+          ),
+        ],
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {

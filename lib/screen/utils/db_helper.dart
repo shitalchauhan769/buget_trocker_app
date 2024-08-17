@@ -65,8 +65,7 @@ class DBHelper {
     database!.rawInsert(query);
   }
 
-  Future<List<EntryModel>> readEntry()
-  async {
+  Future<List<EntryModel>> readEntry() async {
     database=await checkDB();
     String query="SELECT * FROM entry";
     List<Map> l1 = await database!.rawQuery(query);
@@ -75,15 +74,24 @@ class DBHelper {
 
 
   }
-  Future<void> deleteEntry(int? id)
-  async {
+
+  Future<void> deleteEntry(int? id) async {
     database = await checkDB();
     String query = " DELETE FROM entry WHERE id ='$id'";
     database!.rawDelete(query);
   }
+
   Future<void> updateEntry(String title,String amount,String time,String category,String date,String status, int id) async {
     database = await checkDB();
     String query = "UPDATE entry SET title='$title',amount='$amount',time='$time',category='$category',date='$date',status='$status' WHERE cid='$id'";
     database!.rawUpdate(query);
+  }
+
+  Future<List<EntryModel>> sharChing(int? status ) async {
+    database=await checkDB();
+    String query ="SELECT * FROM entry WHERE  status ='$status'";
+    List<Map> l1 = await database!.rawQuery(query);
+    List<EntryModel> sharList=l1.map((e) => EntryModel.MapToModel(e),).toList();
+    return sharList;
   }
 }
